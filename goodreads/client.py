@@ -168,3 +168,14 @@ class GoodreadsClient():
         """Get a review"""
         resp = self.request("/review/show.xml", {'id': review_id})
         return GoodreadsReview(resp['review'])
+
+    def get_books_from_shelf(self, shelf, user_id, max_results=200):
+        books = []
+        req = self.request("/review/list/%s.xml" % user_id, {'shelf': shelf, 'per_page': max_results})
+
+        if int(req['books']['@total']) == 1:
+            books.append(GoodreadsBook(book_dict=req['books']['book'], client=self))
+        elif int(req['books']['@total']) > 1:
+            for book_dict in req['books']['book']:
+                books.append(GoodreadsBook(book_dict=book_dict, client=self))
+        return books
