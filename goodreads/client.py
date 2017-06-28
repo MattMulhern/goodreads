@@ -12,6 +12,7 @@ from .event import GoodreadsEvent
 from .group import GoodreadsGroup
 from .owned_book import GoodreadsOwnedBook
 from .review import GoodreadsReview
+from .work import GoodreadsWork
 
 
 class GoodreadsClientException(Exception):

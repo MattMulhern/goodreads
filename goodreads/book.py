@@ -1,6 +1,7 @@
 """Goodreads book class"""
 from . import author
 from . import shelf
+from . import work
 
 
 class GoodreadsBook:
@@ -72,7 +73,7 @@ class GoodreadsBook:
     @property
     def work(self):
         """Information on the original work"""
-        return self._book_dict['work']
+        return work.GoodreadsWork(self._book_dict['work'], self._client)
 
     @property
     def series_works(self):
