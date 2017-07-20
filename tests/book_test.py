@@ -18,7 +18,6 @@ class TestBook():
         cls.book = client.book('11870085')
 
     def test_get_book(self):
-        import pdb; pdb.set_trace()
         assert isinstance(self.book, GoodreadsBook)
         assert self.book.gid == '11870085'
         assert repr(self.book) == 'The Fault in Our Stars'
