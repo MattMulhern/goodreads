@@ -13,7 +13,7 @@ class GoodreadsWork:
     @property
     def gid(self):
         """Goodreads id of the book"""
-        return self._work_dict['id']
+        return self._work_dict['id']['#text']
 
     @property
     def title(self):
