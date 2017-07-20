@@ -1,7 +1,10 @@
+from . import book
+
 
 class GoodreadsShelf:
-    def __init__(self, shelf_dict):
+    def __init__(self, client, shelf_dict):
         self._shelf_dict = shelf_dict
+        self._client = client
 
     def __repr__(self):
         return self.name

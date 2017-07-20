@@ -69,7 +69,7 @@ class GoodreadsBook:
     @property
     def popular_shelves(self):
         """Popular shelves for the book"""
-        return [shelf.GoodreadsShelf(shelf_dict)
+        return [shelf.GoodreadsShelf(client=self._client, shelf_dict=shelf_dict)
                 for shelf_dict in self._book_dict['popular_shelves']['shelf']]
 
     @property
