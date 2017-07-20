@@ -53,10 +53,6 @@ class TestBook():
         assert all(isinstance(shelf, GoodreadsShelf)
                    for shelf in self.book.popular_shelves)
 
-    def test_work(self):
-        assert type(self.book.work) == GoodreadsWork
-        assert self.book.work.gid['#text'] == '16827462'
-
     def test_series_works(self):
         assert self.book.series_works is None
 
