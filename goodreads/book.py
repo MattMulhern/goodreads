@@ -3,6 +3,8 @@ from . import author
 from . import shelf
 from . import work
 
+from datetime import datetime
+
 
 class GoodreadsBook:
     def __init__(self, book_dict, client):
@@ -81,11 +83,55 @@ class GoodreadsBook:
         return self._book_dict['series_works']
 
     @property
+    def publication_month(self):
+        """Original publication month"""
+        try:
+            val = self._book_dict['publication_month']
+            ival = int(val)
+        except KeyError:  # May not be present
+            return None
+        except TypeError:  # May be present None
+            return None
+        return ival
+
+    @property
+    def publication_year(self):
+        """Original publication year"""
+        try:
+            val = self._book_dict['publication_year']
+            ival = int(val)
+        except KeyError:  # May not be present
+            return None
+        except TypeError:  # May be present None
+            return None
+        return ival
+
+    @property
+    def publication_day(self):
+        """Original publication day"""
+        try:
+            val = self._book_dict['publication_day']
+            ival = int(val)
+        except KeyError:  # May not be present
+            return None
+        except TypeError:  # May be present None
+            return None
+        return ival
+
+    @property
     def publication_date(self):
         """Publication month/day/year for the book"""
-        return (self._book_dict['publication_month'],
-                self._book_dict['publication_day'],
-                self._book_dict['publication_year'])
+        if not self.publication_year:
+            return None
+        if self.publication_month:
+            pub_month = self.publication_month
+        else:
+            pub_month = 1  # no month specified, default to january
+        if self.publication_day:
+            pub_day = self.publication_day
+        else:
+            pub_day = 1  # no day of month specified, default to 1st
+        return datetime(year=self.publication_year, month=pub_month, day=pub_day)
 
     @property
     def publisher(self):

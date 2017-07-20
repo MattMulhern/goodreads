@@ -1,4 +1,5 @@
 """Goodreads work class"""
+from datetime import datetime
 
 
 class GoodreadsWork:
@@ -24,24 +25,48 @@ class GoodreadsWork:
         """Original publication month"""
         try:
             val = self._work_dict['original_publication_month']['#text']
-        except KeyError:
+            ival = int(val)
+        except KeyError:  # May not be present
             return None
-        return int(val)
+        except TypeError:  # May be present None
+            return None
+        return ival
 
     @property
     def publication_year(self):
         """Original publication year"""
         try:
             val = self._work_dict['original_publication_year']['#text']
-        except KeyError:
+            ival = int(val)
+        except KeyError:  # May not be present
             return None
-        return int(val)
+        except TypeError:  # May be present None
+            return None
+        return ival
 
     @property
     def publication_day(self):
         """Original publication day"""
         try:
             val = self._work_dict['original_publication_day']['#text']
-        except KeyError:
+            ival = int(val)
+        except KeyError:  # May not be present
             return None
-        return int(val)
+        except TypeError:  # May be present None
+            return None
+        return ival
+
+    @property
+    def publication_date(self):
+        """Publication month/day/year for the book"""
+        if not self.publication_year:
+            return None
+        if self.publication_month:
+            pub_month = self.publication_month
+        else:
+            pub_month = 1  # no month specified, default to january
+        if self.publication_day:
+            pub_day = self.publication_day
+        else:
+            pub_day = 1  # no day of month specified, default to 1st
+        return datetime(year=self.publication_year, month=pub_month, day=pub_day)
