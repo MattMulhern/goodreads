@@ -1,7 +1,7 @@
 goodreads
 =========
 
-This project is no longer maintained.
+This project is a fork of the no-longer-maintained `goodreads api <https://github.com/sefakilic/goodreads>`__.
 
 |Build Status| |Coverage Status| |Documentation Status| |Downloads|
 |Latest Version| |Supported Python versions| |License|
@@ -185,16 +185,8 @@ Thanks to `Paul Shannon <https://github.com/paulshannon>`__ for
 providing 'goodreads' package at PyPI.
 
 .. |Build Status| image:: https://api.travis-ci.org/MattMulhern/goodreads.svg
-   :target: https://travis-ci.org/MattMulhern/goodreads.svg
+   :target: https://travis-ci.org/MattMulhern/goodreads
 .. |Coverage Status| image:: http://img.shields.io/coveralls/MattMulhern/goodreads.svg
    :target: https://coveralls.io/r/MattMulhern/goodreads
-.. |Documentation Status| image:: https://readthedocs.org/projects/goodreads/badge/?version=latest
-   :target: https://readthedocs.org/projects/goodreads/?badge=latest
-.. |Downloads| image:: https://img.shields.io/pypi/dm/goodreads.svg
-   :target: https://pypi.python.org/pypi/goodreads/
-.. |Latest Version| image:: https://img.shields.io/pypi/v/goodreads.svg
-   :target: https://pypi.python.org/pypi/goodreads/
-.. |Supported Python versions| image:: https://img.shields.io/pypi/pyversions/goodreads.svg
-   :target: https://pypi.python.org/pypi/goodreads/
 .. |License| image:: https://img.shields.io/pypi/l/goodreads.svg
    :target: https://pypi.python.org/pypi/goodreads/
