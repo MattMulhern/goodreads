@@ -5,7 +5,9 @@ from goodreads.client import GoodreadsClient
 from goodreads.book import GoodreadsBook
 from goodreads.author import GoodreadsAuthor
 from goodreads.shelf import GoodreadsShelf
+from goodreads.work import GoodreadsWork
 
+from datetime import datetime
 
 class TestBook():
     @classmethod
@@ -16,6 +18,7 @@ class TestBook():
         cls.book = client.book('11870085')
 
     def test_get_book(self):
+        import pdb; pdb.set_trace()
         assert isinstance(self.book, GoodreadsBook)
         assert self.book.gid == '11870085'
         assert repr(self.book) == 'The Fault in Our Stars'
@@ -28,8 +31,7 @@ class TestBook():
         assert isinstance(self.book.authors[0], GoodreadsAuthor)
 
     def test_description(self):
-        assert self.book.description.startswith(
-            '"I fell in love the way you fall asleep: slowly, then all at once."')
+        assert '"I fell in love the way you fall asleep: slowly, then all at once."' in self.book.description
 
     def test_average_rating(self):
         rating = float(self.book.average_rating)
@@ -53,14 +55,14 @@ class TestBook():
                    for shelf in self.book.popular_shelves)
 
     def test_work(self):
-        assert type(self.book.work) == collections.OrderedDict
-        assert self.book.work['id']['#text'] == '16827462'
+        assert type(self.book.work) == GoodreadsWork
+        assert self.book.work.gid['#text'] == '16827462'
 
     def test_series_works(self):
         assert self.book.series_works is None
 
     def test_publication_date(self):
-        assert self.book.publication_date == ('1', '10', '2012')
+        assert self.book.publication_date == datetime(2012, 1, 10, 0, 0)
 
     def test_publisher(self):
         assert self.book.publisher == 'Dutton Books'
@@ -72,10 +74,10 @@ class TestBook():
         assert self.book.edition_information is None
 
     def test_image_url(self):
-        assert self.book.image_url == 'https://d2arxad8u2l0g7.cloudfront.net/books/1360206420m/11870085.jpg'
+        assert self.book.image_url == 'https://images.gr-assets.com/books/1360206420m/11870085.jpg'
 
     def test_small_image_url(self):
-        assert self.book.small_image_url == 'https://d2arxad8u2l0g7.cloudfront.net/books/1360206420s/11870085.jpg'
+        assert self.book.small_image_url == 'https://images.gr-assets.com/books/1360206420s/11870085.jpg'
 
     def test_is_ebook(self):
         assert self.book.is_ebook == 'false'
