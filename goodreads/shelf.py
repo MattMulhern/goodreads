@@ -22,13 +22,21 @@ class GoodreadsShelf:
         return int(self._shelf_dict['book_count']['#text'])
 
     @property
-    def books(self, full=True, max_results=200):
+    def books(self):
+        return self.get_books(full=True)
+
+    @property
+    def shallow_books(self):
+        return self.get_books(full=False)
+
+    def get_books(self, full=True, max_results=200):
         books = {}
         user = self._client.user()
-        req = self._client.request("/review/list/%s.xml" % user, {'shelf': self, 'per_page': max_results})
-        for req_book in req['books']['book']:
+        req = self._client.request("/review/list/%s.xml" % user.gid, {'shelf': self, 'per_page': max_results})
+
+        for i, req_book in enumerate(req['books']['book'], start=1):
             if full:
-                print("fetching {0}".format(req_book['title']))
+                print("fetching {0} of {1}: {2}".format(i, len(req['books']['book']), req_book['title']))
                 books[req_book['title']] = self._client.book(book_id=req_book['id']['#text'])
             else:
                 books[req_book['title']] = book.GoodreadsBook(client=self._client, book_dict=req_book)
