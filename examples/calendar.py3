@@ -6,9 +6,9 @@ Example usage of:
 """
 
 from goodreads import client
-from datetime import datetime
+from datetime import datetime, timedelta
 import argparse
-import ics
+import icalendar
 import sys
 
 
@@ -52,7 +52,13 @@ def get_dates_to_read(gc, user):
 
 
 def generate_calendar(books):
-    cal = ics.Calendar()
+    cal = icalendar.Calendar()
+    cal.add('prodid', '-//MattMulhern//goodreads//')
+    cal.add('version', '2.0')
+    cal.add('x-wr-timezone', 'Europe/London')
+    cal.add('x-wr-caldesc', 'generated using https://github.com/MattMulhern/goodreads')
+    cal.add('calscale', 'gregorian')
+
     for book in books:
         pubdate = None
         if book.publication_date:
@@ -60,13 +66,19 @@ def generate_calendar(books):
         elif book.work.publication_date:
             pubdate = book.work.publication_date
 
-        event = ics.Event(name=book.title,
-                          begin=pubdate,
-                          description=generate_calendar_description(book))
-        event.make_all_day()
+        event = icalendar.Event()
+        event.add('summary', book.title)
+        event.add('dtstart', pubdate.date())
+        event.add('dtend', pubdate.date())
+        event.add('description', generate_calendar_description(book))
 
-        cal.events.append(event)
+        cal.add_component(event)
 
+        alarm = icalendar.Alarm()
+        alarm.add('description', "{0} is released in a week".format(book.title))
+        alarm.add('trigger', timedelta(weeks=-1))
+        alarm.add('action', 'DISPLAY')
+        event.add_component(alarm)
     return cal
 
 
@@ -101,5 +113,5 @@ if __name__ == '__main__':
 
     unknown_books, published_books, upcoming_books = get_dates_to_read(gc, user)
     cal = generate_calendar(upcoming_books)
-    with open('goodreads.ics', 'w') as f:
-        f.writelines(cal)
+    with open('goodreads.ics', 'wb') as f:
+        f.write(cal.to_ical())
